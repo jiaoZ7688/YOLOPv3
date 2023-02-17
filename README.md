@@ -19,13 +19,14 @@ We used the BDD100K as our datasets,and experiments are run on **NVIDIA TESLA V1
 
 ### video visualization Results
 model : trained on the BDD100k train set and test on the BDD100k val set .
-<td><img src=demo/video.gif/></td>
+<td><img src=demo/2.gif/></td>
 
 ### image visualization Results
 model : trained on the BDD100k train set and test on the BDD100k val set .
 <div align = 'None'>
   <img src="demo/all.jpg" width="100%" />
 </div>
+
 
 ### Model parameter and inference speed
 We compare YOLOPv3 with YOLOP and HybridNets on the NVIDIA RTX 3080
@@ -52,12 +53,12 @@ MRP denotes model re-parameterization techniques
 |      `YOLOv5s`     |     86.8     |       77.2      |
 |       `YOLOP`      |     89.2     |       76.5      |
 |    `HybridNets`    |     92.8     |       77.3      |
-|     `YOLOPv2`      |     92.8     |       77.3      |
-|   **`YOLOPv3`**    |   **92.8**   |     **77.3**    |
+|     `YOLOPv2`      |     91.1     |       83.4      |
+|   **`YOLOPv3`**    |   **96.9**   |     **84.3**    |
 
 </td><td>
 
-<img src="images/det1.jpg" width="50%" /><img src="images/det2.jpg" width="50%" />
+<img src="demo/det.jpg" width="100%" />
 
 </td></tr> </table>
 
@@ -73,11 +74,13 @@ MRP denotes model re-parameterization techniques
 |     `DLT-Net`    |        71.3       |
 |     `PSPNet`     |        89.6       |
 |      `YOLOP`     |        91.5       |
-| **`HybridNets`** |      **90.5**     |
+|   `HybridNets`   |        90.5       |
+|    `YOLOPv2`     |      **93.2**     |
+|  **`YOLOPv3`**   |      **93.2**     |
 
 </td><td>
 
-<img src="images/road1.jpg" width="50%" /><img src="images/road2.jpg" width="50%" />
+<img src="demo/da.jpg" width="100%" />
 
 </td></tr> </table>
 
@@ -92,12 +95,14 @@ MRP denotes model re-parameterization techniques
 |      `Enet`      |     34.12    |       14.64       |
 |      `SCNN`      |     35.79    |       15.84       |
 |    `Enet-SAD`    |     36.56    |       16.02       |
-|      `YOLOP`     |     70.5     |        26.2       |
-| **`HybridNets`** |   **85.4**   |      **31.6**     |
+|      `YOLOP`     |     70.5     |       26.2        |
+|    `HybridNets`  |     85.4     |     **31.6**      |
+|     `YOLOPv2`    |     87.3     |       27.2        |
+|   **`YOLOPv3`**  |   **88.3**   |       28.0        |
 
 </td><td>
 
-<img src="images/lane1.jpg" width="50%" /><img src="images/lane2.jpg" width="50%" />
+<img src="demo/ll.jpg" width="100%" />
 
 </td></tr> </table>
 
