@@ -1,5 +1,3 @@
-# YOLOPv3
-
 <div align="center">
 <h1> YOLOPv3: Better Multi-Task learning Network for Panoptic Driving Perception </h1>
 </font></span> -->
@@ -114,21 +112,14 @@ You can get the model from <a href="https://github.com/CAIC-AD/YOLOPv2/releases/
 
 ### Demo Test
 
-We provide two testing method.You can store the image or video.
+You can use the image or video as input.
 
 ```shell
-python demo.py  --source data/example.jpg
+python demo.py  --source demo/example.jpg
 ```
 
 <!-- ## Usage
 coming soon. -->
-
-
-### Third Parties Resource  
-
-* YOLOPv2 NCNN C++ Demo: [YOLOPv2-ncnn](https://github.com/FeiGeChuanShu/YOLOPv2-ncnn) from [FeiGeChuanShu](https://github.com/FeiGeChuanShu/)
-* YOLOPv2 ONNX and OpenCV DNN Demo: [yolopv2-opencv-onnxrun-cpp-py](https://github.com/hpc203/yolopv2-opencv-onnxrun-cpp-py) from [hpc203](https://github.com/hpc203/)
-
 
 ## License
 
