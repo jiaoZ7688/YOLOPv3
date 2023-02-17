@@ -104,12 +104,17 @@ We compare YOLOPv3 with YOLOP and HybridNets on the NVIDIA RTX 3080. MRP denotes
 </td></tr> </table>
 
 
-## Models
+## Pre-trained Model
+train log in `train.log`. we choose epoch-189.pth as final result.
+You can get the pre-trained model from <a href="https://pan.baidu.com/s/1FlD9TtDdg6BuD6CSAu55ag">here</a>.
+Extraction code：7a0c
 
-You can get the model from <a href="https://github.com/CAIC-AD/YOLOPv2/releases/download/V0.0.1/yolopv2.pt">here</a>.
+
+## Dataset
+For BDD100K: [imgs](https://bdd-data.berkeley.edu/), [det_annot](https://drive.google.com/file/d/1d5osZ83rLwda7mfT3zdgljDiQO3f9B5M/view), [da_seg_annot](https://drive.google.com/file/d/1yNYLtZ5GVscx7RzpOd8hS7Mh7Rs6l3Z3/view), [ll_seg_annot](https://drive.google.com/file/d/1BPsyAjikEM9fqsVNMIygvdVVPrmK1ot-/view)
 
 
-### Demo Test
+## Demo Test
 
 You can use the image or video as input.
 
@@ -117,20 +122,7 @@ You can use the image or video as input.
 python demo.py  --source demo/example.jpg
 ```
 
-<!-- ## Usage
-coming soon. -->
-
 ## License
 
-YOLOPv2 is released under the [MIT Licence](LICENSE).
+YOLOPv3 is released under the [MIT Licence](LICENSE).
 
-<!-- ## Citation
-If you find YOLOPv2 is useful in your research or applications, please consider giving us a star &#127775; and citing it by the following BibTeX entry.
-```bibtex
-@article{GeokernelTransformer,
-  title={Efficient and Robust 2D-to-BEV Representation Learning via Geometry-guided Kernel Transformer},
-  author={Chen, Shaoyu and Cheng, Tianheng and Wang, Xinggang and Meng, Wenming and Zhang, Qian and Liu, Wenyu},
-  journal={arXiv preprint arXiv:2206.04584},
-  year={2022}
-}
-``` -->
