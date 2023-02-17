@@ -1,104 +1,86 @@
 # YOLOPv3
 
 <div align="center">
-<h1> YOLOPv2:rocket:: Better, Faster, Stronger for Panoptic driving Perception </h1>
-<!-- <--!span><font size="5", > Efficient and Robust 2D-to-BEV Representation Learning via Geometry-guided Kernel Transformer
+<h1> YOLOPv3: Better Multi-Task learning Network for Panoptic Driving Perception </h1>
 </font></span> -->
 
-  Cheng Han, Qichao Zhao, Shuyi Zhang, Yinzi Chen, Zhenlin Zhang, Jinwei Yuan
-<!-- <a href="https://scholar.google.com/citations?user=pCY-bikAAAAJ&hl=zh-CN">Jinwei Yuan</a> -->
-<div><a href="https://arxiv.org/abs/2208.11434">[YOLOPv2 arXiv Preprint]</a></div> 
-
+  Jiao Zhan, Chi Guo, Yarong Luo, Jianlang Hu, Fei Li, Jingnan Liu
 </div>
 
 ## News
-* `August 30, 2022`: We've released the inference code / trained  <a href="https://github.com/CAIC-AD/YOLOPv2/releases/download/V0.0.1/yolopv2.pt">model</a> and published [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/hank1996/yolopv2)[web demo](https://huggingface.co/spaces/hank1996/yolopv2), just enjoy it !
-
-* `August 24, 2022`: We've released the tech report for **YOLOPv2**. This work is still in progress and code/models are coming soon. Please stay tuned! ☕️
-<!-- * `August 26, 2022`: We've upload the model for **YOLOPv2**. This version support for model training, validation and prediction. -->
+* `2023-2-17`:  We've uploaded the experiment results along with some code, and the full code will be released soon!
 
 ## Introduction
 
-:grin:We present an excellent multi-task network based on YOLOP:blue_heart:,which is called **YOLOPv2: Better, Faster, Stronger for Panoptic driving Perception**.
-The advantages of **YOLOPv2** can be summaried as below:
-* **Better**:clap:: we proposed the end-to-end perception network which possess better feature extraction backbone, better bag-of-freebies were developed for dealing with the training process.
-* **Faster**:airplane:: we employed more efficient ELAN structures to achieve reasonable memory allocation for our  model. 
-* **Stronger**:muscle:: the proposed model has stable network design and has powerful robustness for adapting to various scenarios .
-
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/yolopv2-better-faster-stronger-for-panoptic/traffic-object-detection-on-bdd100k)](https://paperswithcode.com/sota/traffic-object-detection-on-bdd100k?p=yolopv2-better-faster-stronger-for-panoptic)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/yolopv2-better-faster-stronger-for-panoptic/drivable-area-detection-on-bdd100k)](https://paperswithcode.com/sota/drivable-area-detection-on-bdd100k?p=yolopv2-better-faster-stronger-for-panoptic)
-[![PWC](https://img.shields.io/endpoint.svg?url=https://paperswithcode.com/badge/yolopv2-better-faster-stronger-for-panoptic/lane-detection-on-bdd100k)](https://paperswithcode.com/sota/lane-detection-on-bdd100k?p=yolopv2-better-faster-stronger-for-panoptic)
+Panoptic driving perception plays a key role in autonomous driving. To effectively solve this problem, existing methods generally adopt high-precision and real-time multi-task learning networks to perform multiple related tasks simultaneously. However, the performance and the training efficiency of these networks can hinder their practical deployment of networks. In this paper, we present vital improvements to the existing YOLOP, forming an efficient multi-task learning network that can simultaneously per-form traffic object detection, drivable area segmentation, and lane detection, named YOLOPv3. In terms of architecture improve-ments, we design an efficient network architecture to achieve a balance between accuracy and computation cost. In terms of net-work training, we propose an efficient training strategy to optimize the training process without additional inference cost. Our method not only improves the network performance, making it significantly better than existing methods, but also improves the training efficiency, making it more accessible to users with limited computing resources. Experimental results on the challenging BDD100K dataset demonstrate the state-of-the-art (SOTA) performance in real-time: It achieves 96.9 % recall and 84.3% mAP50 on traffic object detection, 93.2% mIoU on drivable area segmentation, and 88.3% accuracy and 28.0% IoU on lane detection. Meanwhile, it owns competitive inference speed compared to the lightweight network YOLOP. Thus, YOLOPv3 is an efficient solution for panoptic driving perception problems.
 
 ## Results
 We used the BDD100K as our datasets,and experiments are run on **NVIDIA TESLA V100**.
 
+### video visualization Results
+model : trained on the BDD100k train set and test on the BDD100k val set .
+<td><img src=demo/video.gif/></td>
 
-### Web Demo
-
-- Integrated into [Huggingface Spaces 🤗](https://huggingface.co/spaces/hank1996/yolopv2) using Gradio. Try out the Web Demo !
-
-### Visualization
-model : trained on the BDD100k dataset and test on T3CAIC camera.
-<td><img src=data/demo/together_video.gif/></td>
-  
-  
-
-
+### image visualization Results
+model : trained on the BDD100k train set and test on the BDD100k val set .
+<div align = 'None'>
+  <img src="demo/all.jpg" width="100%" />
+</div>
 
 ### Model parameter and inference speed
-|        Model       |    Size     |   Params   |  Speed (fps) |
-|:------------------:|:-----------:|:----------:|:-----------:|
-|       `YOLOP`      |     640     |    7.9M    |     49      |
-|     `HybridNets`   |     640     |    12.8M   |     28      |
-|    **`YOLOPv2`**   |     640     |  **38.9M** |   **91 (+42)** :arrow_double_up:   |
+We compare YOLOPv3 with YOLOP and HybridNets on the NVIDIA RTX 3080
+MRP denotes model re-parameterization techniques
+
+|        Model         |   Backbone   |   Params   | Speed (fps) |
+|:--------------------:|:------------:|:----------:|:-----------:|
+|       `YOLOP`        |  CSPDarknet  |    7.9M    |     39      |
+|     `HybridNets`     | EfficientNet |    12.8M   |     17      |
+|  `YOLOPv3 (no MRP)`  |    ELANNet   |    30.9M   |     26      |
+|   `YOLOPv3 (MRP)`    |    ELANNet   |    30.2M   |     37      |
 
 
 ### Traffic Object Detection Result
 <table>
 <tr><th>Result </th><th>Visualization</th></tr>
 <tr><td>
-  
 
-|        Model       |     mAP@0.5 (%)   |Recall (%)  |
+|        Model       |  Recall (%)  |   mAP@0.5 (%)   |
 |:------------------:|:------------:|:---------------:|
-|     `MultiNet`     |        60.2      |   81.3     |  
-|      `DLT-Net`     |        68.4      |  89.4     |
-|   `Faster R-CNN`   |          55.6      | 77.2     |
-|      `YOLOv5s`     |         77.2      | 86.8     |
-|       `YOLOP`      |        76.5      | 89.2     |   
-|     `HybridNets`   |          77.3      | **92.8**   | 
-|    **`YOLOPv2`**   |       **83.4(+6.1)**:arrow_double_up:    |   91.1(-1.7)  :arrow_down:   |
+|     `MultiNet`     |     81.3     |       60.2      |
+|      `DLT-Net`     |     89.4     |       68.4      |
+|   `Faster R-CNN`   |     77.2     |       55.6      |
+|      `YOLOv5s`     |     86.8     |       77.2      |
+|       `YOLOP`      |     89.2     |       76.5      |
+|    `HybridNets`    |     92.8     |       77.3      |
+|     `YOLOPv2`      |     92.8     |       77.3      |
+|   **`YOLOPv3`**    |   **92.8**   |     **77.3**    |
 
 </td><td>
 
-<!-- ### Visualization -->
-<img src="data/demo/veh3.jpg" width="100%" align='right'/>
-<!--   <img src="images/veh2.jpg" width="50%" /> -->
+<img src="images/det1.jpg" width="50%" /><img src="images/det2.jpg" width="50%" />
 
 </td></tr> </table>
+
 
 ### Drivable Area Segmentation
 <table>
-
 <tr><th>Result </th><th>Visualization</th></tr>
 <tr><td>
 
-|       Model      | Drivable mIoU (%) |——:relaxed:——|
-|:----------------:|:-----------------:|---:|
-|    `MultiNet`    |        71.6       |  |   
-|     `DLT-Net`    |        71.3       || 
-|     `PSPNet`     |        89.6       || 
-|      `YOLOP`     |        91.5       || 
-|     `HybridNets` |        90.5       || 
-|     `YOLOPv2`    |   **93.2(+1.7)** :arrow_up:  |  | 
+|       Model      | Drivable mIoU (%) |
+|:----------------:|:-----------------:|
+|    `MultiNet`    |        71.6       |
+|     `DLT-Net`    |        71.3       |
+|     `PSPNet`     |        89.6       |
+|      `YOLOP`     |        91.5       |
+| **`HybridNets`** |      **90.5**     |
 
 </td><td>
 
-<!-- ### Visualization -->
-<img src="data/demo/fs3.jpg" width="100%" align='right'/>
-<!--   <img src="images/fs2.jpg" width="50%" /> -->
+<img src="images/road1.jpg" width="50%" /><img src="images/road2.jpg" width="50%" />
 
 </td></tr> </table>
+
 
 ### Lane Line Detection
 <table>
@@ -111,27 +93,13 @@ model : trained on the BDD100k dataset and test on T3CAIC camera.
 |      `SCNN`      |     35.79    |       15.84       |
 |    `Enet-SAD`    |     36.56    |       16.02       |
 |      `YOLOP`     |     70.5     |        26.2       |
-|   `HybridNets`   |     85.4     |        **31.6**     |
-|    **`YOLOPv2`** |   **87.3(+1.9)**:arrow_up:   |      27.2(-4.4) :arrow_down: |
-  
+| **`HybridNets`** |   **85.4**   |      **31.6**     |
+
 </td><td>
 
-<!-- ### Visualization -->
-<img src="data/demo/lane3.jpg" width="100%" align='right' />
-<!--   <img src="images/lane1.jpg" width="50%" /> -->
+<img src="images/lane1.jpg" width="50%" /><img src="images/lane2.jpg" width="50%" />
 
 </td></tr> </table>
-
-### Day-time and Night-time visualization results
-<div align = 'None'>
-  <a href="./">
-  <img src="data/demo/all3.jpg" width="45%" />
-  <img src="data/demo/all2.jpg" width="45%" />
-  <img src="data/demo/night1.jpg" width="45%" />
-  <img src="data/demo/night2.jpg" width="45%" />
-  </a>
-</div>
-
 
 
 ## Models
