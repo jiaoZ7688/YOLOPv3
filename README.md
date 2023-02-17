@@ -31,7 +31,10 @@ model : trained on the BDD100k train set and test on the BDD100k val set .
 
 
 ### Model parameter and inference speed
-We compare YOLOPv3 with YOLOP and HybridNets on the NVIDIA RTX 3080. MRP denotes model re-parameterization techniques.
+We compare YOLOPv3 with YOLOP and HybridNets on the NVIDIA RTX 3080. 
+In terms of real-time, we compare the inference speed (excluding data pre-processing and NMS operations) at batch size 1.  
+MRP denotes model re-parameterization techniques.
+
 
 |        Model         |   Backbone   |   Params   | Speed (fps) |
 |:--------------------:|:------------:|:----------:|:-----------:|
