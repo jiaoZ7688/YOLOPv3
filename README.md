@@ -17,14 +17,16 @@
 Panoptic driving perception plays a key role in autonomous driving. To effectively solve this problem, existing methods generally adopt high-precision and real-time multi-task learning networks to perform multiple related tasks simultaneously. However, the performance and the training efficiency of these networks can hinder their practical deployment of networks. In this paper, we present vital improvements to the existing YOLOP, forming an efficient multi-task learning network that can simultaneously per-form traffic object detection, drivable area segmentation, and lane detection, named YOLOPv3. In terms of architecture improve-ments, we design an efficient network architecture to achieve a balance between accuracy and computation cost. In terms of net-work training, we propose an efficient training strategy to optimize the training process without additional inference cost. Our method not only improves the network performance, making it significantly better than existing methods, but also improves the training efficiency, making it more accessible to users with limited computing resources. Experimental results on the challenging BDD100K dataset demonstrate the state-of-the-art (SOTA) performance in real-time: It achieves 96.9 % recall and 84.3% mAP50 on traffic object detection, 93.2% mIoU on drivable area segmentation, and 88.3% accuracy and 28.0% IoU on lane detection. Meanwhile, it owns competitive inference speed compared to the lightweight network YOLOP. Thus, YOLOPv3 is an efficient solution for panoptic driving perception problems.
 
 ## Results
-We used the BDD100K as our datasets,and experiments are run on **NVIDIA TESLA V100**.
+* We used the BDD100K as our datasets,and experiments are run on **NVIDIA TESLA V100**.
+* model : trained on the BDD100k train set and test on the BDD100k val set .
 
 ### video visualization Results
-model : trained on the BDD100k train set and test on the BDD100k val set .
+* Note: The raw video comes from [HybridNets](https://github.com/datvuthanh/HybridNets/tree/main/demo/video/)
+* The results of our experiments are as follows:
 <td><img src=demo/2.gif/></td>
 
 ### image visualization Results
-model : trained on the BDD100k train set and test on the BDD100k val set .
+* The results on the BDD100k val set.
 <div align = 'None'>
   <img src="demo/all.jpg" width="100%" />
 </div>
