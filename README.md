@@ -160,9 +160,10 @@ MRP denotes model re-parameterization techniques.
 ## Requirement
 
 This codebase has been developed with python version 3.7, PyTorch 1.12+ and torchvision 0.13+
-
-See `requirements.txt` for all dependencies and version requirements.
-
+```setup
+conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 -c pytorch
+```
+See `requirements.txt` for additional dependencies and version requirements.
 ```setup
 pip install -r requirements.txt
 ```
