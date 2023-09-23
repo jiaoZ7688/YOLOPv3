@@ -130,10 +130,7 @@ class AutoDriveDataset(Dataset):
         else:
             seg_label = cv2.imread(data["mask"], 0)
         lane_label = cv2.imread(data["lane"], 0)
-        # print(lane_label.shape)
-        # print(seg_label.shape)
-        # print(lane_label.shape)
-        # print(seg_label.shape)
+
         resized_shape = self.inputsize
         if isinstance(resized_shape, list):
             resized_shape = max(resized_shape)
@@ -153,10 +150,7 @@ class AutoDriveDataset(Dataset):
         if det_label.size > 0:
             # Normalized xywh to pixel xyxy format
             labels = det_label.copy()
-            # labels[:, 1] = ratio[0] * w * (det_label[:, 1] - det_label[:, 3] / 2) + pad[0]  # pad width
-            # labels[:, 2] = ratio[1] * h * (det_label[:, 2] - det_label[:, 4] / 2) + pad[1]  # pad height
-            # labels[:, 3] = ratio[0] * w * (det_label[:, 1] + det_label[:, 3] / 2) + pad[0]
-            # labels[:, 4] = ratio[1] * h * (det_label[:, 2] + det_label[:, 4] / 2) + pad[1]
+
             labels[:, 1] = (det_label[:, 1] - det_label[:, 3] / 2) * w
             labels[:, 2] = (det_label[:, 2] - det_label[:, 4] / 2) * h 
             labels[:, 3] = (det_label[:, 1] + det_label[:, 3] / 2) * w
