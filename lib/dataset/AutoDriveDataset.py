@@ -120,85 +120,6 @@ class AutoDriveDataset(Dataset):
         """
         return len(self.db)
 
-    def load_mosaic(self, idx):
-    # YOLOv5 4-mosaic loader. Loads 1 image + 3 random images into a 4-image mosaic
-        labels4 = []
-        w_mosaic, h_mosaic = 640, 384
-        # 生成分割中心点，也就是四幅图的中心点
-        yc = int(random.uniform(-self.mosaic_border[0], 2 * h_mosaic + self.mosaic_border[0])) # 192,3x192
-        xc = int(random.uniform(-self.mosaic_border[1], 2 * w_mosaic + self.mosaic_border[1])) # 320,3x320
-        
-        indices = range(len(self.db))
-        indices = [idx] + random.choices(indices, k=3)  # 3 additional iWmage indices
-                        
-        random.shuffle(indices)
-        for i, index in enumerate(indices):
-            # Load image
-            # img, labels, seg_label, (h0,w0), (h, w), path = self.load_image(index), h=384, w = 640
-            img, labels, seg_label, lane_label, (h0, w0), (h,w), path  = self.load_image(index)
-                        
-            # place img in img4
-            if i == 0:  # top left
-                img4 = np.full((h_mosaic * 2, w_mosaic * 2, img.shape[2]), 114, dtype=np.uint8)  # base image with 4 tiles
-
-                seg4 = np.full((h_mosaic * 2, w_mosaic * 2), 0, dtype=np.uint8)  # base image with 4 tiles
-
-                lane4 = np.full((h_mosaic * 2, w_mosaic * 2), 0, dtype=np.uint8)  # base image with 4 tiles
-                # 大图中左上角、右下角的坐标
-                x1a, y1a, x2a, y2a = max(xc - w, 0), max(yc - h, 0), xc, yc  # xmin, ymin, xmax, ymax (large image)
-                # 小图中左上角、右下角的坐标
-                x1b, y1b, x2b, y2b = w - (x2a - x1a), h - (y2a - y1a), w, h  # xmin, ymin, xmax, ymax (small image)
-                
-            elif i == 1:  # top right
-                x1a, y1a, x2a, y2a = xc, max(yc - h, 0), min(xc + w, w_mosaic * 2), yc
-                x1b, y1b, x2b, y2b = 0, h - (y2a - y1a), min(w, x2a - x1a), h
-            elif i == 2:  # bottom left
-                x1a, y1a, x2a, y2a = max(xc - w, 0), yc, xc, min(h_mosaic * 2, yc + h)
-                x1b, y1b, x2b, y2b = w - (x2a - x1a), 0, w, min(y2a - y1a, h)
-            elif i == 3:  # bottom right
-                x1a, y1a, x2a, y2a = xc, yc, min(xc + w, w_mosaic * 2), min(h_mosaic * 2, yc + h)
-                x1b, y1b, x2b, y2b = 0, 0, min(w, x2a - x1a), min(y2a - y1a, h)
-
-            img4[y1a:y2a, x1a:x2a] = img[y1b:y2b, x1b:x2b]  # img4[ymin:ymax, xmin:xmax]
-
-            seg4[y1a:y2a, x1a:x2a] = seg_label[y1b:y2b, x1b:x2b]  # img4[ymin:ymax, xmin:xmax]
-                
-            lane4[y1a:y2a, x1a:x2a] = lane_label[y1b:y2b, x1b:x2b]  # img4[ymin:ymax, xmin:xmax]
-
-            padw = x1a - x1b
-            padh = y1a - y1b
-            
-            if len(labels):
-                labels[:, 1] += padw
-                labels[:, 2] += padh
-                labels[:, 3] += padw
-                labels[:, 4] += padh
-            
-                labels4.append(labels)
-
-        # Concat/clip labels
-        labels4 = np.concatenate(labels4, 0)
-        
-        new = labels4.copy()
-        new[:, 1:] = np.clip(new[:, 1:], 0, 2*w_mosaic)
-        new[:, 2:5:2] = np.clip(new[:, 2:5:2], 0, 2*h_mosaic)
-
-        # filter candidates
-        i = box_candidates(box1=labels4[:,1:5].T, box2=new[:,1:5].T)
-        labels4 = labels4[i]
-        labels4[:] = new[i] 
-
-        return img4, labels4, seg4, lane4, (h0, w0), (h, w), path
-
-    def mixup(self, im, labels, seg_label, lane_label, im2, labels2, seg_label2, lane_label2 ):
-        # Applies MixUp augmentation https://arxiv.org/pdf/1710.09412.pdf
-        r = np.random.beta(32.0, 32.0)  # mixup ratio, alpha=beta=32.0
-        im = (im * r + im2 * (1 - r)).astype(np.uint8)
-        labels = np.concatenate((labels, labels2), 0)
-        seg_label |= seg_label2
-        lane_label |= lane_label2
-        return im, labels, seg_label, lane_label
-
     def load_image(self, idx):
         data = self.db[idx]
         img = cv2.imread(data["image"], cv2.IMREAD_COLOR | cv2.IMREAD_IGNORE_ORIENTATION)
@@ -264,15 +185,7 @@ class AutoDriveDataset(Dataset):
         if self.is_train:
             mosaic_this = False
             if random.random() < 0.0:
-                mosaic_this = True
-                #  this doubles training time with inherent stuttering in tqdm, prob cpu or io bottleneck, does prefetch_generator work with ddp? (no improvement)
-                #  updated, mosaic is inherently slow, maybe cache the images in RAM? maybe it was IO bottleneck of reading 4 images everytime? time it
-                img, labels, seg_label, lane_label, (h0, w0), (h, w), path = self.load_mosaic(idx)
-
-                # mixup is double mosaic, really slow
-                if random.random() < 0.15:
-                    img2, labels2, seg_label2, lane_label2, (_, _), (_, _), _ = self.load_mosaic(random.randint(0, len(self.db) - 1))
-                    img, labels, seg_label, lane_label = self.mixup(img, labels, seg_label, lane_label, img2, labels2, seg_label2, lane_label2)
+                pass
             else:
                 img, labels, seg_label, lane_label, (h0, w0), (h,w), path  = self.load_image(idx)
 
@@ -376,10 +289,6 @@ class AutoDriveDataset(Dataset):
         # # seg1[cutout_mask] = 0
         # # seg2[cutout_mask] = 0
         
-        # seg_label /= 255
-        # seg0 = self.Tensor(seg0)
-        # toTensor将cv2读取的0~255范围的pil img转换为0~1范围的tensor
-        # H W C --> C H W
         if self.cfg.num_seg_class == 3:
             seg0 = self.Tensor(seg0)
         seg1 = self.Tensor(seg1)
@@ -389,16 +298,6 @@ class AutoDriveDataset(Dataset):
         lane1 = self.Tensor(lane1)
         lane2 = self.Tensor(lane2)
 
-        # # preprocessing, due to the width of lane , 2 --> 8 pixel
-        # seg1 = seg1-lane1
-        # road_1 = torch.zeros([1, 384, 640])
-        # bg_1 = torch.ones([1, 384, 640])
-
-        # # road
-        # road_1[seg1 == 1] = 1
-        # seg1 = road_1
-        # seg2 = 1-road_1
-
         # seg_label = torch.stack((seg2[0], seg1[0]),0)
         if self.cfg.num_seg_class == 3:
             seg_label = torch.stack((seg0[0],seg1[0],seg2[0]),0)
@@ -406,11 +305,6 @@ class AutoDriveDataset(Dataset):
             seg_label = torch.stack((seg2[0], seg1[0]),0)
             
         lane_label = torch.stack((lane2[0], lane1[0]),0)
-        # _, gt_mask = torch.max(seg_label, 0)
-        # _ = show_seg_result(img, gt_mask, idx, 0, save_dir='debug', is_gt=True)
-        
-        # seg_label = shape( 2 H W )，两个channel代表前景（1）与背景（0）
-        # lane_label = shape( 2 H W )，两个channel代表前景（1）与背景（0）
         target = [labels_out, seg_label, lane_label]
         img = self.transform(img)
 
