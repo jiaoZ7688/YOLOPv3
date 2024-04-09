@@ -35,8 +35,6 @@
 
 ### Model parameter and inference speed
 We compare YOLOPv3 with YOLOP and HybridNets on the NVIDIA RTX 3080. 
-In terms of real-time, we compare the inference speed (excluding data pre-processing and NMS operations) at batch size 1.  
-MRP denotes model re-parameterization techniques.
 
 
 |        Model         |   Backbone   |   Params   | Flops | Speed (fps) |
