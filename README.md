@@ -1,5 +1,5 @@
 <div align="center">
-<h1> YOLOPv3: A Robust Multi-Task Learning Network for Panoptic Driving Perception </h1>
+<h1> YOLOPv3 </h1>
 
 [![Generic badge](https://img.shields.io/badge/License-MIT-<COLOR>.svg?style=for-the-badge)](https://github.com/jiaoZ7688/YOLOPv3/blob/main/LICENSE) 
 [![PyTorch - Version](https://img.shields.io/badge/PYTORCH-1.12+-red?style=for-the-badge&logo=pytorch)](https://pytorch.org/get-started/locally/) 
