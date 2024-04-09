@@ -17,10 +17,6 @@
 
 * `2023-8-26`:  We have uploaded part of the code and the full code will be released soon!
 
-## Introduction
-
-Panoptic driving perception is crucial for autonomous driving, encompassing traffic object detection, drivable area segmentation, and lane detection. Existing methods typically employ high-precision and real-time multi-task learning networks to tackle these tasks simultaneously. While they yield promising results, better performance can be achieved by resolving current problems such as underutilized high-resolution features and uncaptured long-distance contextual dependencies. In this paper, we propose YOLOPv3, a simple yet efficient multi-task learning network for panoptic driving perception. Compared to previous works, we make vital improvements. For example, we utilize multi-scale high-resolution features and long-distance contextual dependencies to improve the multi-task prediction performance of the network. In addition, we propose optimization improvements to enhance network training, allowing our multi-task learning network to achieve optimal performance through simple end-to-end training. Experimental results on the challenging BDD100K dataset demonstrate the state-of-the-art (SOTA) performance of YOLOPv3: it achieves 96.9 % recall and 84.3% mAP50 on traffic object detection, 93.2% mIoU on drivable area segmentation, and 88.3% accu-racy and 28.0% IoU on lane detection. Moreover, YOLOPv3 owns competitive inference speed compared to the lightweight net-work YOLOP. Therefore, YOLOPv3 is a powerful solution for panoptic driving perception problems.
-
 ## Results
 * We used the BDD100K as our datasets,and experiments are run on **NVIDIA TESLA V100**.
 * model : trained on the BDD100k train set and test on the BDD100k val set .
